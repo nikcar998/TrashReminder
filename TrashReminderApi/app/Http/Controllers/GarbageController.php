@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Garbage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GarbageController extends Controller
 {
@@ -35,16 +36,27 @@ class GarbageController extends Controller
      */
     public function store(Request $request)
     {
-        $garbage = new Garbage;
-        $garbage->tipo = $request->tipo;
-        $garbage->ora_inizio = $request->ora_inizio;
-        $garbage->ora_fine = $request->ora_fine;
-        $garbage->giorno = $request->giorno;
-        $result = $garbage->save();
-        if ($result) {
-            return ["Result" => "Data has been saved"];
+        $rules = array(
+            "tipo" => "required",
+            "ora_inizio" => "required|min:5|max:5",
+            "ora_fine" => "required|min:5|max:5",
+            "giorno" => "required|min:6|max:9",
+        );
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 401);
         } else {
-            return ["Result" => "opertation failed"];
+            $garbage = new Garbage;
+            $garbage->tipo = $request->tipo;
+            $garbage->ora_inizio = $request->ora_inizio;
+            $garbage->ora_fine = $request->ora_fine;
+            $garbage->giorno = $request->giorno;
+            $result = $garbage->save();
+            if ($result) {
+                return ["Result" => "Data has been saved"];
+            } else {
+                return ["Result" => "opertation failed"];
+            }
         }
     }
 
@@ -78,33 +90,27 @@ class GarbageController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-/////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     public function update(Request $request, $id)
     {
-        $rules=array(
-            "tipo"=>"required",
-            "ora_inizio"=>"required|min:5|max:5",
-            "ora_fine"=>"required|min:5|max:5",
-            "giorno"=>"required|min:6|max:9",
+        $rules = array(
+            "tipo" => "required",
+            "ora_inizio" => "required|min:5|max:5",
+            "ora_fine" => "required|min:5|max:5",
+            "giorno" => "required|min:6|max:9",
         );
-        $validator= Validator::make($request->all(), $rules);
-        if($validator->fails())
-        {
-            return response()->json($validator->errors(),401);
-        }
-        else
-        {
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 401);
+        } else {
             $garbage = new Garbage;
             $garbage->name = $request->name;
             $garbage->description = $request->description;
             $result = $garbage->save();
-            if($result)
-            {
-                return ["result"=>"data has been created"];
-            }
-            else
-            {
-                return ["result"=>"operation failed"];
+            if ($result) {
+                return ["result" => "data has been created"];
+            } else {
+                return ["result" => "operation failed"];
             }
         }
     }
@@ -117,15 +123,12 @@ class GarbageController extends Controller
      */
     public function destroy($id)
     {
-        $garbage= Garbage::find($id);
-        $result=$garbage->delete();
-        if($result)
-        {
-            return ["result"=>"data has been deleted"];
-        }
-        else
-        {
-            return ["result"=>"operation failed"];
+        $garbage = Garbage::find($id);
+        $result = $garbage->delete();
+        if ($result) {
+            return ["result" => "data has been deleted"];
+        } else {
+            return ["result" => "operation failed"];
         }
     }
 }
