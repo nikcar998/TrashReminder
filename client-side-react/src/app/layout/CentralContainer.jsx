@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 import { Login } from '../../features/login/Login';
 import { Register } from '../../features/register/Register';
+import { GarbageDayTable } from '../../features/garbageTimeTables/GarbageDayTable';
+import { Edit } from '../../features/edit/Edit';
 
 export const CentralContainer = () => {
 
@@ -28,6 +30,12 @@ export const CentralContainer = () => {
                                 </Route>
                                 <Route path="/register" exact>
                                     <Register />
+                                </Route>
+                                <Route path="/garbageDay" exact>
+                                    <GarbageDayTable />
+                                </Route>
+                                <Route path="/edit" exact>
+                                    <Edit />
                                 </Route>
                             </Switch>
                         </Router>

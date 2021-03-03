@@ -7,7 +7,7 @@ export const Navbar = () => {
             <Menu.Item
                 name='Title'
             >
-                <Header as='h5' className="ui green header"><Icon disabled name='trash' />TrashReminder</Header>
+                <a href="/" ><Header as='h5' className="ui green header"><Icon disabled name='trash' />TrashReminder</Header></a>
             </Menu.Item>
             <Menu.Item
                 name='logout'

@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import { Segment, Header, Form} from 'semantic-ui-react'
+import { Segment, Header, Form } from 'semantic-ui-react'
 import agent from '../../app/api/agent'
 
 export const Login = () => {
@@ -31,23 +31,29 @@ export const Login = () => {
             </Segment>
             <Segment>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group>
+                    <Form.Group inline>
                         <Form.Input
+                            required
                             placeholder='mario@rossi.com'
                             name='email'
+                            label="Email"
                             value={user.email}
                             onChange={handleInputChange}
                         />
                         <Form.Input
+                            required
                             placeholder='password'
                             name='password'
+                            label="Password"
                             value={user.password}
                             onChange={handleInputChange}
                         />
-                        <Form.Button content='Submit' type="submit" />
+                    </Form.Group>
+                    <Form.Group style={{justifyContent:"center"}} >
+                        <Form.Button content='Login' type="submit" />
                     </Form.Group>
                 </Form>
-        </Segment>
+            </Segment>
         </Fragment>
     )
 }

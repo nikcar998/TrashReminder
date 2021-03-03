@@ -8,15 +8,28 @@ import {
 } from "react-router-dom";
 
 export const Welcome = () => {
+    const token = localStorage.getItem('TR_token');
     return (
         <Fragment >
             <Segment>
-                <Header as="h2">Welcome in <span style={{ color: "green" }}><Icon disabled name='trash' />TrashReminder</span>!</Header>
-                <Header as="h3">Sign In or Sign up!</Header>
+                <Header as="h2">Benvenuti su <span style={{ color: "green" }}><Icon disabled name='trash' />TrashReminder</span>!</Header>
+                <Header as="h3">Effettuate il login o registratevi!</Header>
             </Segment>
             <Segment>
-                <Button as={Link} to="/login" primary>Sign In</Button>
-                <Button color='grey'>Sign up</Button>
+                {token ?
+                    <Fragment >
+                        <Button as={Link} to="/garbageDay" primary>Home</Button>
+                        <Header as="h5">Vuoi accedere da un altro account o il tuo token è scaduto? premi qui!</Header>
+                        <Button as={Link} to="/login" primary>Login</Button>
+                        <Button as={Link} to="/register" secondary>Register</Button>
+                    </Fragment>
+                    :
+                    <Fragment >
+                        <Button as={Link} to="/login" primary>Login</Button>
+                        <Button as={Link} to="/register" secondary>Register</Button>
+                    </Fragment>
+                    
+                }
             </Segment>
         </Fragment>
     )
