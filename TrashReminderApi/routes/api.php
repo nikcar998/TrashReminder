@@ -20,7 +20,7 @@ use App\Http\Controllers\UserController;
 // // //     return $request->user();
 // // // });
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
     //All secure URL's
     Route::apiResource("garbage", GarbageController::class);
 });

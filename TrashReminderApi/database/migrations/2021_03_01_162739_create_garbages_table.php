@@ -19,6 +19,7 @@ class CreateGarbagesTable extends Migration
             $table->string('ora_inizio');
             $table->string('ora_fine');
             $table->string('giorno');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
