@@ -15,7 +15,7 @@ class GarbageController extends Controller
      */
     public function index()
     {
-        return auth()->user()->UserGarbage();
+        return auth()->user()->UserGarbage()->get();
     }
 
     /**
@@ -37,10 +37,10 @@ class GarbageController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            "tipo" => "required",
-            "ora_inizio" => "required|min:5|max:5",
-            "ora_fine" => "required|min:5|max:5",
-            "giorno" => "required|min:6|max:9",
+            "tipo" => "required|max:50",
+            "ora_inizio" => "required|min:5|max:5|date_format:H:i",
+            "ora_fine" => "required|min:5|max:5|date_format:H:i",
+            "giorno" => "required|min:6|max:9|in:lunedì,martedì,mercoledì,giovedì,venerdì,sabato,domenica",
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -70,10 +70,9 @@ class GarbageController extends Controller
     public function show($id)
     {
         $result = auth()->user()->UserGarbage()->find($id);
-        if($result)
-        {
+        if ($result) {
             return $result;
-        }else{
+        } else {
             return response('Not found.', 404);
         }
     }
@@ -103,20 +102,22 @@ class GarbageController extends Controller
         $garbage = Garbage::find($id);
         if (auth()->user()->id == $garbage->user_id) {
             $rules = array(
-                "tipo" => "required",
-                "ora_inizio" => "required|min:5|max:5",
-                "ora_fine" => "required|min:5|max:5",
-                "giorno" => "required|min:6|max:9",
+                "tipo" => "required|max:50",
+                "ora_inizio" => "required|min:5|max:5|date_format:H:i",
+                "ora_fine" => "required|min:5|max:5|date_format:H:i",
+                "giorno" => "required|min:6|max:9|in:lunedì,martedì,mercoledì,giovedì,venerdì,sabato,domenica",
             );
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 401);
             } else {
-                $garbage->name = $request->name;
-                $garbage->description = $request->description;
+                $garbage->tipo = $request->tipo;
+                $garbage->ora_inizio = $request->ora_inizio;
+                $garbage->ora_fine = $request->ora_fine;
+                $garbage->giorno = $request->giorno;
                 $result = $garbage->save();
                 if ($result) {
-                    return ["result" => "data has been created"];
+                    return ["result" => "data has been updated"];
                 } else {
                     return ["result" => "operation failed"];
                 }

@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function UserGarbage()
     {
-        return Garbage::where('user_id',$this->id)->get();
+        return Garbage::where('user_id',$this->id);
     }
 }
