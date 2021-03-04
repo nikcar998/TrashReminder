@@ -86,7 +86,6 @@ export const DeleteForm = () => {
                     <Button
                       icon="trash"
                       color="red"
-                      width="5"
                       size="mini"
                       onClick={() => deleteGarbageDay(garbage.id)}
                     />
