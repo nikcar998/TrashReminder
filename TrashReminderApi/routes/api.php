@@ -24,7 +24,7 @@ use App\Http\Controllers\UserController;
 Route::group(['middleware' => 'auth:api'], function () {
     //All secure URL's
     Route::apiResource("garbage", GarbageController::class);
-    Route::post("logout", [UserController::class, 'logout']);
+    Route::get("logout", [UserController::class, 'logout']);
 
     //route made for requirements -> only purpose: get all the "garbage" of a certain day
     Route::get("index/{giorno}", [RequirementsController::class, 'index']);
@@ -34,6 +34,8 @@ Route::post("login", [UserController::class, 'login']);
 
 Route::post("register", [UserController::class, 'register']);
 
+
+//this route will respond with an error if some unauthorized user tries to use "garbage" routes
 Route::get('/error', function (Request $request) {
     return response('Unauthenticated.', 401);
 })->name('accessError');

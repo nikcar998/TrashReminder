@@ -1,29 +1,13 @@
 import React, { Fragment, useState } from "react";
-import {
-  Form,
-  Segment,
-  Header,
-  Input,
-  Dropdown,
-  Button,
-  Divider,
-} from "semantic-ui-react";
+import { Form, Segment, Dropdown, Button, Divider } from "semantic-ui-react";
 import { TextField } from "@material-ui/core";
 import agent from "../../app/api/agent";
 import { useHistory } from "react-router-dom";
+import { daysArray } from "../../app/common/daysArray";
 
+//This form is shown if someone clicks on the "Crea" option in the "Edit" component
 export const CreateForm = () => {
   const history = useHistory();
-
-  const options = [
-    { key: "lunedì", text: "Lunedì", value: "lunedì" },
-    { key: "martedì", text: "Martedì", value: "martedì" },
-    { key: "mercoledì", text: "Mercoledì", value: "mercoledì" },
-    { key: "giovedì", text: "Giovedì", value: "giovedì" },
-    { key: "venerdì", text: "Venerdì", value: "venerdì" },
-    { key: "sabato", text: "Sabato", value: "sabato" },
-    { key: "domenica", text: "Domenica", value: "domenica" },
-  ];
 
   const initialState = {
     tipo: "",
@@ -37,17 +21,20 @@ export const CreateForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit() {
-    agent.TrashPicking.create(garbageDay).then((resp) => {
-      console.log(resp.Result);
-      if (resp.Result == "Data has been saved") {
-        history.push("/garbageDay");
-      } else {
+    agent.TrashPicking.create(garbageDay)
+      .then((resp) => {
+        console.log(resp.Result);
+        if (resp.Result === "Data has been saved") {
+          history.push("/garbageDay");
+        }
+      })
+      .catch((e) => {
         setErrorMessage(
           "Ci sono stati degli errori durante la compilazione, controlli di aver selezionato e modificato ogni input e riprovi"
         );
         setError(true);
-      }
-    });
+        console.log(e);
+      });
   }
 
   function handleInputChange(event) {
@@ -67,7 +54,7 @@ export const CreateForm = () => {
           button
           basic
           floating
-          options={options}
+          options={daysArray}
           defaultValue="lunedì"
           style={{ marginBottom: "5px" }}
           onChange={handleDropdownChange}

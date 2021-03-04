@@ -1,31 +1,17 @@
 import React, { Fragment, useEffect, useState } from "react";
 import {
-  Form,
   Segment,
   Header,
-  Input,
   Dropdown,
   Button,
   Divider,
   List,
 } from "semantic-ui-react";
-import { TextField } from "@material-ui/core";
 import agent from "../../app/api/agent";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { daysArray } from "../../app/common/daysArray";
 
+//This form is shown if someone clicks on the "Cancella" option in the "Edit" component
 export const DeleteForm = () => {
-  const history = useHistory();
-
-  const options = [
-    { key: "lunedì", text: "Lunedì", value: "lunedì" },
-    { key: "martedì", text: "Martedì", value: "martedì" },
-    { key: "mercoledì", text: "Mercoledì", value: "mercoledì" },
-    { key: "giovedì", text: "Giovedì", value: "giovedì" },
-    { key: "venerdì", text: "Venerdì", value: "venerdì" },
-    { key: "sabato", text: "Sabato", value: "sabato" },
-    { key: "domenica", text: "Domenica", value: "domenica" },
-  ];
   const [currentDayGarbage, setCurrentDayGarbage] = useState("lunedì");
   const [garbageDay, setGarbageDay] = useState([]);
 
@@ -43,7 +29,7 @@ export const DeleteForm = () => {
   function getCurrentDayGarbage() {
     agent.TrashPicking.list().then((resp) => {
       const garbageValuesOfTheDay = resp.filter(
-        (garbage) => garbage.giorno == currentDayGarbage
+        (garbage) => garbage.giorno === currentDayGarbage
       );
       setGarbageDay(garbageValuesOfTheDay);
       console.log(garbageDay);
@@ -66,7 +52,7 @@ export const DeleteForm = () => {
         button
         basic
         floating
-        options={options}
+        options={daysArray}
         defaultValue="lunedì"
         style={{ marginBottom: "5px" }}
         onChange={handleDropdownChange}
@@ -79,10 +65,10 @@ export const DeleteForm = () => {
             </Header>
             {garbageDay.map((garbage) => {
               return (
-                <List.List>
+                <List.List key={garbage.id}>
                   <List.Item>
                     {garbage.tipo}: dalle {garbage.ora_inizio} alle{" "}
-                    {garbage.ora_fine} {" "}
+                    {garbage.ora_fine}{" "}
                     <Button
                       icon="trash"
                       color="red"

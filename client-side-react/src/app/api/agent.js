@@ -28,6 +28,7 @@ const TrashPicking = {
 const User = {
   login: (req) => requests.post(`/login`, req),
   register: (req) => requests.post(`/register`, req),
+  logout: () => requests.get(`/logout`),
 };
 
 const agent = {

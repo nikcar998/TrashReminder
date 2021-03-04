@@ -1,7 +1,10 @@
 import React, { Fragment } from "react";
-import { Grid, Segment, Button, Header, Icon } from "semantic-ui-react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Segment, Button, Header, Icon } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
+
+//this component represent the homepage of the page from which the user can login, register or see
+//his garbageDays
 export const Welcome = () => {
   const token = localStorage.getItem("TR_token");
   return (

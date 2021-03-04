@@ -1,7 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Grid, Segment, Button, Header, Icon, List } from "semantic-ui-react";
+import { Segment, Button, Header, List } from "semantic-ui-react";
 import agent from "../../app/api/agent";
 import { Link } from "react-router-dom";
+
+//this component presents all the garbageDays created from the user
 export const GarbageDayTable = () => {
   const [garbages, setGarbages] = useState([]);
 
@@ -34,20 +36,22 @@ export const GarbageDayTable = () => {
         <Segment>
           <List align="start" bulleted>
             {weekDays.map((day) => (
-              <List.Item>
+              <List.Item key={day}>
                 <Header as="h4" style={{ textTransform: "capitalize" }}>
                   {day}:
                 </Header>
                 {garbages.map((garbage) => {
-                  if (garbage.giorno == day) {
+                  if (garbage.giorno === day) {
                     return (
-                      <List.List>
+                      <List.List key={garbage.id}>
                         <List.Item>
                           {garbage.tipo}: dalle {garbage.ora_inizio} alle{" "}
                           {garbage.ora_fine}{" "}
                         </List.Item>
                       </List.List>
                     );
+                  }else{
+                    return null;
                   }
                 })}
               </List.Item>
