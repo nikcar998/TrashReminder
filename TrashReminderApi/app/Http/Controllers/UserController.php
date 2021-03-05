@@ -19,7 +19,7 @@ class UserController extends Controller
             ], 404);
         }
 
-        $token = $user->createToken('my-app-token')->accessToken;
+        $token = $user->createToken(env("VAR_TOKENKEY"))->accessToken;
 
         $response = [
             'user' => $user,
@@ -51,7 +51,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $result = $user->save();
             if ($result) {
-                $token = $user->createToken('my-app-token')->accessToken;
+                $token = $user->createToken(env("VAR_TOKENKEY"))->accessToken;
 
                 $response = [
                     'user' => $user,
